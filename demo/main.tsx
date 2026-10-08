@@ -10,7 +10,7 @@ function Demo() {
 	const numbers = Array.from({ length: 10 }, (_, n) => n);
 	return (
 		<main>
-			<h1>slidereact</h1>
+			<h1>the-slidereact</h1>
 			<p>Zero extra runtime dependencies. React 19+, TypeScript, responsive, swipe, SSR-safe.</p>
 			<h2>1. Infinite, responsive, drag &amp; external controls</h2>
 			<p>First visible slide index: <strong>{index}</strong></p>

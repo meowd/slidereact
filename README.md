@@ -1,13 +1,13 @@
-# slidereact
+# React Slider "the-slidereact"
 
 A small, CSS-free React 19+ slider written in TypeScript. ESM + CommonJS builds, TypeScript declarations, no runtime dependencies other than peer React/React DOM.
 
-[Interactive demo (GitHub Pages)](https://meowd.github.io/slidereact/) · [Source](https://github.com/meowd/slidereact) · [npm](https://www.npmjs.com/package/slidereact)
+[Interactive demo (GitHub Pages)](https://meowd.github.io/slidereact/) · [Source](https://github.com/meowd/slidereact) · [npm](https://www.npmjs.com/package/the-slidereact)
 
 ## Installation
 
 ```bash
-npm install slidereact
+npm install the-slidereact
 ```
 
 React 19+ and React DOM 19+ are peer dependencies. The component supports JavaScript and TypeScript projects, SSR, and client hydration.
@@ -15,7 +15,7 @@ React 19+ and React DOM 19+ are peer dependencies. The component supports JavaSc
 ## JavaScript usage
 
 ```jsx
-import Slider from "slidereact";
+import Slider from "the-slidereact";
 
 export function Gallery() {
   return (
@@ -32,7 +32,7 @@ export function Gallery() {
 
 ```tsx
 import { useRef } from "react";
-import Slider, { type SliderRef, type SliderBreakpoint } from "slidereact";
+import Slider, { type SliderRef, type SliderBreakpoint } from "the-slidereact";
 
 const breakpoints: SliderBreakpoint[] = [
   { minWidth: 768, slidesToShow: 3, slidesToScroll: 3 },
