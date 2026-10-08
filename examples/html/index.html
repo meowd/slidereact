@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>the-slidereact — обычная HTML-страница</title>
+	<style>
+		body {
+			max-width: 960px;
+			margin: 40px auto;
+			padding: 0 20px;
+			font: 16px/1.5 system-ui, sans-serif;
+		}
+
+		.item {
+			padding: 8px;
+		}
+
+		.item>div {
+			padding: 45px 10px;
+			background: #e8ecf4;
+			border-radius: 8px;
+			text-align: center;
+		}
+
+		button {
+			cursor: pointer;
+		}
+
+		.controls {
+			display: flex;
+			gap: 8px;
+			margin-bottom: 18px;
+		}
+	</style>
+
+	<!-- React 19 is an ES module: use the CDN with import maps. -->
+	<script type="importmap">
+  {
+    "imports": {
+      "react": "https://esm.sh/react@19.2.0",
+      "react-dom/client": "https://esm.sh/react-dom@19.2.0/client?external=react"
+    }
+  }
+  </script>
+
+	<!-- An ordinary classic script. No type="module" or build tools needed for the slider. -->
+	<!-- For production replace the local URL with a version-pinned jsDelivr URL, e.g.: -->
+	<!-- https://cdn.jsdelivr.net/npm/the-slidereact@1.0.2/dist/index.global.js -->
+	<script src="../../dist/index.global.js" defer></script>
+</head>
+
+<body>
+	<h1>the-slidereact в статическом HTML</h1>
+	<p>React и ReactDOM загружаются с CDN; слайдер — обычным script src.</p>
+	<div class="controls">
+		<button id="prev" type="button">Назад</button>
+		<button id="next" type="button">Вперёд</button>
+		<button id="goto" type="button">Перейти к слайду №5</button>
+	</div>
+	<div id="slider-root"></div>
+
+	<script type="module">
+		import * as React from 'react';
+		import { createRoot } from 'react-dom/client';
+
+		// The browser bundle reads this at render time. It never includes a second React.
+		globalThis.React = React;
+		const { Slider } = globalThis.TheSlidereact;
+		if (!Slider) throw new Error('Не загрузился dist/index.global.js. Выполните npm run build.');
+
+		const sliderRef = React.createRef();
+		const slides = Array.from({ length: 10 }, (_, index) =>
+			React.createElement('div', { key: index }, `Слайд ${index + 1}`)
+		);
+
+		const slider = React.createElement(Slider, {
+			ref: sliderRef,
+			itemClassName: 'item',
+			arrows: true,
+			infinite: true,
+			slidesToShow: 1,
+			slidesToScroll: 1,
+			speed: 500,
+			breakpoints: [{ minWidth: 768, slidesToShow: 3, slidesToScroll: 3 }],
+			afterChange: (index) => console.log('Первый видимый индекс:', index),
+		}, ...slides);
+
+		createRoot(document.getElementById('slider-root')).render(slider);
+		document.getElementById('prev').addEventListener('click', () => sliderRef.current?.goToPrev());
+		document.getElementById('next').addEventListener('click', () => sliderRef.current?.goToNext());
+		document.getElementById('goto').addEventListener('click', () => sliderRef.current?.goTo(4));
+	</script>
+</body>
+
+</html>

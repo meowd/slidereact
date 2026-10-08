@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.2] - 2026-10-08
+
+### Changed
+- Updated npm package. Slider accessibility in static HTML.
+
 ## [1.0.1] - 2026-10-08
 
 ### Changed
