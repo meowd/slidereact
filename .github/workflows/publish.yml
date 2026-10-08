@@ -1,0 +1,35 @@
+name: Publish npm release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    if: ${{ !github.event.release.prerelease }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+          package-manager-cache: false
+      - name: Verify release tag matches package version
+        shell: bash
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          test "${{ github.event.release.tag_name }}" = "v${VERSION}"
+      - name: Install dependencies
+        run: npm ci
+      - name: Validate and build
+        run: |
+          npm run typecheck
+          npm run build
+          npm pack --dry-run
+      - name: Publish with npm Trusted Publishing (OIDC)
+        run: npm publish --access public

@@ -1,0 +1,79 @@
+:root {
+	font-family: system-ui, sans-serif;
+	background: #f7f8fb;
+	color: #181b22;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+}
+
+main {
+	max-width: 960px;
+	margin: 0 auto;
+	padding: 24px;
+}
+
+h1 {
+	font-size: 2.25rem;
+}
+
+h2 {
+	margin-top: 42px;
+	font-size: 1.3rem;
+}
+
+.slider {
+	margin: 12px 0;
+}
+
+.slide {
+	padding: 8px;
+}
+
+.tile {
+	min-height: 170px;
+	display: grid;
+	place-items: center;
+	background: #ddeafa;
+	border-radius: 12px;
+	font-size: 2rem;
+	font-weight: 700;
+}
+
+.secondary {
+	background: #dbf3e8;
+	font-size: 1.3rem;
+}
+
+.tertiary {
+	background: #f7e6d5;
+	font-size: 1.3rem;
+}
+
+button {
+	padding: 10px 15px;
+	border: 1px solid #abb0bb;
+	border-radius: 8px;
+	cursor: pointer;
+	background: white;
+}
+
+button:disabled {
+	opacity: 0.35;
+	cursor: default;
+}
+
+.controls {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+footer {
+	margin-top: 50px;
+}

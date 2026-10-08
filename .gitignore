@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+
+# Production builds
+dist/
+build/
+
+# Demo builds
+demo/dist/
+
+# TypeScript
+*.tsbuildinfo
+
+# Test coverage
+coverage/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Local npm packages
+*.tgz
+
+# Temporary files
+tmp/
+temp/
+.cache/
+
+# IDE
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local configuration
+*.local
