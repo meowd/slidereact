@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.0.3] - 2026-10-08
+
+### Changed
+
+- New props: autoplay, autoplaySpeed, dots, dotsClassName
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `autoplay` | `boolean` | `false` | Automatically advances slides. |
+| `autoplaySpeed` | `number` | `5000` | Delay in milliseconds before automatically advancing to the next slide. |
+| `dots` | `boolean` | `false` | Shows navigation dots, one per slide. Only available when `slidesToShow` is `1`. |
+| `dotsClassName` | `string \| null` | `null` | Custom CSS class applied to each navigation dot. Uses default inline styles when not specified. |
+
 ## [1.0.2] - 2026-10-08
 
 ### Changed

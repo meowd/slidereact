@@ -1,6 +1,6 @@
 {
 	"name": "the-slidereact",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "Lightweight TypeScript React 19+ slider with responsive breakpoints, infinite mode, pointer gestures and SSR support",
 	"license": "MIT",
 	"author": "D. Volkov",

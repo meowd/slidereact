@@ -20,6 +20,10 @@ export interface SliderProps {
 	isList?: boolean;
 	itemClassName?: string;
 	arrows?: boolean;
+	autoplay?: boolean;
+	autoplaySpeed?: number;
+	dots?: boolean;
+	dotsClassName?: string | null;
 	prevArrowClassName?: string;
 	nextArrowClassName?: string;
 	className?: string;

@@ -99,7 +99,7 @@ function loopFor(count: number, settings: SliderSettings, infinite: boolean): bo
 }
 
 interface SliderBusinessParams extends Pick<SliderProps,
-	"slidesToShow" | "slidesToScroll" | "initialSlide" | "speed" | "infinite" | "breakpoints" | "afterChange"> {
+	"slidesToShow" | "slidesToScroll" | "initialSlide" | "speed" | "infinite" | "breakpoints" | "afterChange" | "autoplay" | "autoplaySpeed"> {
 	slideCount: number;
 	sliderRef?: SliderProps["ref"];
 }
@@ -107,7 +107,7 @@ interface SliderBusinessParams extends Pick<SliderProps,
 /** Управляет слайдером: навигация, responsive-геометрия, loop и анимации. */
 export function useSliderBusiness({
 	sliderRef, slideCount, slidesToShow = 1, slidesToScroll = 1, initialSlide = 0,
-	speed = 500, infinite = false, breakpoints = EMPTY_BREAKPOINTS, afterChange,
+	speed = 500, infinite = false, breakpoints = EMPTY_BREAKPOINTS, afterChange, autoplay = false, autoplaySpeed = 5000,
 }: SliderBusinessParams) {
 	const count = Math.max(0, Math.trunc(numberOr(slideCount)));
 	const duration = Math.max(0, numberOr(speed, 500));
@@ -204,6 +204,67 @@ export function useSliderBusiness({
 	/** Переходит вперёд на одну группу. */
 	const goToNext = useCallback(() => moveBy(1), [moveBy]);
 
+	/**
+	 * Нормализует задержку автопрокрутки.
+	 *
+	 * @param {number} value
+	 * @returns {number}
+	 */
+	const normalizeAutoplaySpeed = (value: number): number => {
+		return Number.isFinite(value) && value > 0
+			? value
+			: 5000;
+	};
+
+	const autoplayDelay = normalizeAutoplaySpeed(autoplaySpeed);
+
+	/**
+	 * Запускает автопрокрутку после заданной задержки.
+	 * Таймер пересоздаётся после каждого переключения.
+	 */
+	useEffect(() => {
+		if (!autoplay || !canNavigate) {
+			return;
+		}
+
+		if (state.isAnimating || state.isDragging) {
+			return;
+		}
+
+		const currentIndex = normalizeIndex(
+			state.currentIndex,
+			count,
+			state.settings.slidesToShow,
+			loopEnabled,
+		);
+
+		if (
+			!loopEnabled &&
+			currentIndex >= maxIndex(count, state.settings.slidesToShow)
+		) {
+			return;
+		}
+
+		const timer = window.setTimeout(() => {
+			goToNext();
+		}, autoplayDelay);
+
+		return () => {
+			window.clearTimeout(timer);
+		};
+	}, [
+		autoplay,
+		autoplayDelay,
+		canNavigate,
+		count,
+		loopEnabled,
+		state.currentIndex,
+		state.settings.slidesToShow,
+		state.isAnimating,
+		state.isDragging,
+		goToNext,
+	]);
+
 	useImperativeHandle<SliderRef, SliderRef>(sliderRef, () => ({ goTo, goToPrev, goToNext }), [goTo, goToPrev, goToNext]);
 
 	const drag = useSliderDragAndDropBusiness({
@@ -273,6 +334,8 @@ export function useSliderBusiness({
 
 	return {
 		viewportRef, renderedSlides,
+		currentIndex,
+		slideCount: count,
 		translateX: -(numberOr(virtualIndex) * slideWidth) + numberOr(state.dragOffset),
 		slidesToShow: state.settings.slidesToShow,
 		animationSpeed: duration,
@@ -281,6 +344,7 @@ export function useSliderBusiness({
 		prevDisabled: unavailable || (!loopEnabled && currentIndex <= 0),
 		nextDisabled: unavailable || (!loopEnabled && currentIndex >= maxIndex(count, state.settings.slidesToShow)),
 		goPrev: goToPrev, goNext: goToNext, handleTransitionEnd,
+		goTo,
 		handlePointerDown: drag.handlePointerDown,
 		handlePointerMove: drag.handlePointerMove,
 		handlePointerUp: drag.handlePointerUp,

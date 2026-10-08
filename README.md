@@ -82,6 +82,10 @@ With `isList`, the slider creates `<ul>` and an `<li>` wrapper for **every** sli
 | `speed` | `number` | `500` | Transition duration, ms; 0 = instant |
 | `infinite` | `boolean` | `false` | Wrap between last and first slide |
 | `breakpoints` | `SliderBreakpoint[]` | `[]` | Mobile-first rules selected by `window.innerWidth` |
+| `autoplay` | `boolean` | `false` | Automatically advances slides. |
+| `autoplaySpeed` | `number` | `5000` | Delay in milliseconds before automatically advancing to the next slide. |
+| `dots` | `boolean` | `false` | Shows navigation dots, one per slide. Only available when `slidesToShow` is `1`. |
+| `dotsClassName` | `string \| null` | `null` | Custom CSS class applied to each navigation dot. Uses default inline styles when not specified. |
 | `afterChange` | `(index: number) => void` | – | Called after completed navigation with first visible original slide index |
 | `ref` | `Ref<SliderRef>` | – | Exposes imperative API on React 19+ |
 

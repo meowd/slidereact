@@ -3,6 +3,7 @@ import type { CSSProperties } from "react";
 import SlideItem from "./components/slideItem";
 import PrevArrow from "./components/prevArrow";
 import NextArrow from "./components/nextArrow";
+import Dots from "./components/dots";
 import { useSliderBusiness } from "./sliderBusiness";
 import type { SliderProps } from "./types";
 
@@ -12,11 +13,14 @@ export default function Slider({
 	prevArrowClassName = "", nextArrowClassName = "", className = "",
 	slidesToShow = 1, slidesToScroll = 1, initialSlide = 0, speed = 500,
 	infinite = false, breakpoints, afterChange,
+	autoplay = false, autoplaySpeed = 5000,
+	dots = false, dotsClassName = null,
 }: SliderProps) {
 	const slides = Children.toArray(children);
 	const slider = useSliderBusiness({
 		sliderRef: ref, slideCount: slides.length, slidesToShow, slidesToScroll,
 		initialSlide, speed, infinite, breakpoints, afterChange,
+		autoplay, autoplaySpeed,
 	});
 	const Track = isList ? "ul" : "div";
 	const slidePercent = 100 / slider.slidesToShow;
@@ -50,6 +54,14 @@ export default function Slider({
 				</Track>
 			</div>
 			<NextArrow display={arrows === true} className={nextArrowClassName} disabled={slider.nextDisabled} onClick={slider.goNext} />
+			<Dots
+				display={dots === true && slider.slidesToShow === 1}
+				count={slider.slideCount}
+				currentIndex={slider.currentIndex}
+				className={dotsClassName}
+				disabled={slider.isAnimating || slider.isDragging}
+				onClick={slider.goTo}
+			/>
 		</div>
 	);
 }
